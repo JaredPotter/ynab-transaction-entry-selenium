@@ -16,12 +16,14 @@ username = sys.argv[1]
 password = sys.argv[2]
 userGuid = sys.argv[3]
 accountGuid = sys.argv[4]
+filename = sys.argv[5]
 
 if verbose: 
 	print("USERNAME: " + username)
 	print("PASSWORD: " + password)
 	print("User GUID: " + userGuid)
 	print("Account GUID: " + accountGuid)
+	print("Filename: " + filename)
 
 # INPUT VALIDATION
 if username == "":
@@ -40,14 +42,18 @@ if accountGuid == "":
 	print("Account GUID is missing.")
 	quit()
 
+if filename == "":
+	print("Filename is missing.")
+	quit()
+
 transactions = []
 
 # Load CSV File
-with open('chase.csv', 'rb') as csvfile:
+with open(filename, 'rb') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
     for row in spamreader:
     	if len(row) != 4:
-    		raise ValueError('Invalid format');
+    		raise ValueError('Invalid format. On row: ' + str(row));
     	else:
     		transactions.append(row);
 
@@ -115,7 +121,7 @@ for transaction in transactions:
 
 	currentElement.send_keys(Keys.RETURN)
 
-	time.sleep(2)
+	time.sleep(1)
 
 # Closes driver
 driver.quit()
